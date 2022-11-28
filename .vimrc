@@ -1,6 +1,7 @@
 set encoding=utf-8
 set t_Co=256  " set color
 syntax on
+set updatetime=100  " 100ms
 
 " Some server have issues with backup files
 set nobackup
@@ -32,6 +33,9 @@ map <C-T><right> :tabn<cr>
 " Save file using leader
 nnoremap <leader>w :w<cr>
 
+" Quit file using leader
+nnoremap <leader>q :q<cr>
+
 " Split navigations
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
@@ -54,10 +58,10 @@ inoremap {;<CR> {<CR>};<ESC>O
 
 " Press jj to exit insert mode
 inoremap jj <ESC>
+inoremap jk <ESC>
 
 " FZF keybinding
-nnoremap <leader>o :FZF -m<cr>
-nnoremap <leader>p :FZF -m --preview bat\ --color=always\ --style=numbers\ {}<cr>
+nnoremap <leader>o :FZF -m --preview bat\ --color=always\ --style=numbers\ {}<cr>
 
 " Go to tab by number
 noremap <leader>1 1gt
@@ -71,6 +75,21 @@ noremap <leader>8 8gt
 noremap <leader>9 9gt
 noremap <leader>0 :tablast<cr>
 
+" NERDTree keymappings
+nnoremap <leader>n :NERDTreeFocus<CR>
+nnoremap <C-n> :NERDTree<CR>
+nnoremap <leader>t :NERDTreeToggle<CR>
+nnoremap <C-f> :NERDTreeFind<CR>
+
+" Git Gutter
+highlight GitGutterAdd guifg=#009900 ctermfg=Green
+highlight GitGutterChange guifg=#bbbb00 ctermfg=Yellow
+highlight GitGutterDelete guifg=#ff2222 ctermfg=Red
+let g:gitgutter_enabled = 1
+let g:gitgutter_map_keys = 0
+nmap ) <Plug>(GitGutterNextHunk)
+nmap ( <Plug>(GitGutterPrevHunk)
+
 " Plugins
 call plug#begin()
 
@@ -81,6 +100,10 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'yuezk/vim-js'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'preservim/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'ryanoasis/vim-devicons'
+Plug 'airblade/vim-gitgutter'
 
 call plug#end()
 
