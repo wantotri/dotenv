@@ -23,6 +23,12 @@ set signcolumn=yes
 set expandtab
 set shiftwidth=4
 set softtabstop=4
+set splitright
+set splitbelow
+
+" Page Up and Down then zz
+nnoremap <C-D> <C-D>zz
+nnoremap <C-U> <C-U>zz
 
 " Key bindings for Tab navigation
 map <C-T><up>    :tabr<cr>
@@ -30,10 +36,8 @@ map <C-T><down>  :tabl<cr>
 map <C-T><left>  :tabp<cr>
 map <C-T><right> :tabn<cr>
 
-" Save file using leader
+" Save and Quit file using leader
 nnoremap <leader>w :w<cr>
-
-" Quit file using leader
 nnoremap <leader>q :q<cr>
 
 " Split navigations
@@ -59,6 +63,10 @@ inoremap {;<CR> {<CR>};<ESC>O
 " Press jj to exit insert mode
 inoremap jj <ESC>
 inoremap jk <ESC>
+
+" Move line up and down
+nnoremap <leader><Down> ddp==
+nnoremap <leader><Up> ddkP==
 
 " FZF keybinding
 nnoremap <leader>o :FZF -m --preview bat\ --color=always\ --style=numbers\ {}<cr>
@@ -95,11 +103,17 @@ call plug#begin()
 
 Plug 'vim-airline/vim-airline'
 Plug 'morhetz/gruvbox'
-Plug 'rust-lang/rust.vim'
+
+" LSP and syntax
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'rust-lang/rust.vim'
 Plug 'yuezk/vim-js'
 Plug 'maxmellon/vim-jsx-pretty'
+
+" Fuzzy Search
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+
+" Editor Setup
 Plug 'preservim/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'ryanoasis/vim-devicons'
@@ -137,5 +151,27 @@ inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
 function! CheckBackspace() abort
       let col = col('.') - 1
         return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call ShowDocumentation()<CR>
+
+function! ShowDocumentation()
+    if CocAction('hasProvider', 'hover')
+        call CocActionAsync('doHover')
+    else
+        call feedkeys('K', 'in')
+    endif
 endfunction
 
