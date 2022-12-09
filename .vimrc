@@ -65,8 +65,8 @@ inoremap jj <ESC>
 inoremap jk <ESC>
 
 " Move line up and down
-nnoremap <leader><Down> ddp==
-nnoremap <leader><Up> ddkP==
+nnoremap <C-Up>   ddkP==
+nnoremap <C-Down> ddp==
 
 " FZF keybinding
 nnoremap <leader>o :FZF -m --preview bat\ --color=always\ --style=numbers\ {}<cr>
@@ -84,13 +84,13 @@ noremap <leader>9 9gt
 noremap <leader>0 :tablast<cr>
 
 " NERDTree keymappings
+nnoremap <C-n>     :NERDTree<CR>
+nnoremap <C-f>     :NERDTreeFind<CR>
 nnoremap <leader>n :NERDTreeFocus<CR>
-nnoremap <C-n> :NERDTree<CR>
 nnoremap <leader>t :NERDTreeToggle<CR>
-nnoremap <C-f> :NERDTreeFind<CR>
 
 " Git Gutter
-highlight GitGutterAdd guifg=#009900 ctermfg=Green
+highlight GitGutterAdd    guifg=#009900 ctermfg=Green
 highlight GitGutterChange guifg=#bbbb00 ctermfg=Yellow
 highlight GitGutterDelete guifg=#ff2222 ctermfg=Red
 let g:gitgutter_enabled = 1
