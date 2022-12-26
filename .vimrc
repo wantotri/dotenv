@@ -1,6 +1,4 @@
 set encoding=utf-8
-set t_Co=256  " set color
-syntax on
 set updatetime=100  " 100ms
 
 " Some server have issues with backup files
@@ -25,6 +23,7 @@ set shiftwidth=4
 set softtabstop=4
 set splitright
 set splitbelow
+set mouse=a
 
 " Page Up and Down then zz
 nnoremap <C-D> <C-D>zz
@@ -65,8 +64,10 @@ inoremap jj <ESC>
 inoremap jk <ESC>
 
 " Move line up and down
-nnoremap <C-Up>   ddkP==
-nnoremap <C-Down> ddp==
+nnoremap <leader><Up>   ddkP==
+nnoremap <leader><Down> ddp==
+nnoremap } }zz
+nnoremap { {zz
 
 " FZF keybinding
 nnoremap <leader>o :FZF -m --preview bat\ --color=always\ --style=numbers\ {}<cr>
@@ -102,6 +103,9 @@ nmap ( <Plug>(GitGutterPrevHunk)
 call plug#begin()
 
 Plug 'vim-airline/vim-airline'
+
+" Color Scheme
+Plug 'sainnhe/everforest'
 Plug 'morhetz/gruvbox'
 
 " LSP and syntax
@@ -121,16 +125,33 @@ Plug 'airblade/vim-gitgutter'
 
 call plug#end()
 
-" IMPORTANT: for gruvbox to work, colorscheme command
-" has to be after Plug 'morhetz/gruvbox'
-" Use gruvbox colorscheme
-colorscheme gruvbox
+" Important!!
+if has('termguicolors')
+    set termguicolors
+else
+    set color
+    set t_Co=256  
+endif
 
 " Use gruvbox dark (or light)
 set background=dark
 
 " Make the contrast hard (or soft, medium)
 let g:gruvbox_contrast_dark = 'hard'
+let g:everforest_background = 'hard'
+let g:everforest_better_performance = 1
+let g:airline_theme = 'everforest'
+
+" IMPORTANT: for gruvbox to work, colorscheme command
+" has to be after Plug 'morhetz/gruvbox'
+" Use gruvbox colorscheme
+" colorscheme gruvbox
+colorscheme everforest
+
+" Transparent background
+hi Normal guibg=NONE ctermbg=NONE
+hi NonText ctermbg=NONE
+hi EndOfBuffer guibg=NONE ctermbg=NONE
 
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: There's always complete item selected by default, you may want to enable
@@ -175,3 +196,5 @@ function! ShowDocumentation()
     endif
 endfunction
 
+" Symbol renaming
+nmap <leader>rn <Plug>(coc-rename)
